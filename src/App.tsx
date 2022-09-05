@@ -1,14 +1,33 @@
-import { useState } from 'react'
-import { MainLayout } from './components/layout/MainLayout'
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { publicRoutes, privateRoutes } from './routes'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div>
-      <MainLayout/>
-    </div>
+    <Router>
+      <div className="m-0 p-0 w-screen h-screen bg-gray-800">
+        <Routes>
+          {
+            publicRoutes.map((route, index) => {
+              const Layout = route.layout
+              const Page = route.component
+              return <Route key={index} path={route.path} element={
+                <Layout><Page/></Layout>
+              }></Route>
+            })
+          }
+          {
+            privateRoutes.map((route, index) => {
+              const Layout = route.layout
+              const Page = route.component
+              return <Route key={index} path={route.path} element={
+                <Layout><Page/></Layout>
+              }></Route>
+            })
+          }
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
