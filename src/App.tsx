@@ -5,7 +5,7 @@ function App() {
 
   return (
     <Router>
-      <div className="m-0 p-0 w-screen h-screen bg-gray-800">
+      <div className="m-0 p-0 w-screen h-screen">
         <Routes>
           {
             publicRoutes.map((route, index) => {
