@@ -33,12 +33,12 @@ export function Login (props: LoginProps) {
           </div>
           <div className="w-full flex flex-col">
             <div className="w-full mt-4 flex flex-row justify-between items-center">
-              <span className="text-gray-600 font-semibold text-xl mr-2 basis-1/5 lg:invisible truncate ">Email</span>
-              <input placeholder="Your email" type="email" className="grow placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
+              <span className="text-gray-600 font-semibold text-xl mr-2 basis-1/5 lg:hidden truncate ">Email</span>
+              <input placeholder="Your email" type="email" className="basis-4/5 placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
             </div>
             <div className="w-full mt-4 flex flex-row justify-between items-center">
-              <span className="text-gray-600 font-semibold text-xl mr-2 basis-1/5 lg:invisible truncate">Password</span>
-              <input placeholder="Your password" type="password" className="grow placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
+              <span className="text-gray-600 font-semibold text-xl mr-2 basis-1/5 lg:hidden truncate">Password</span>
+              <input placeholder="Your password" type="password" className="basis-4/5 placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
             </div>
           </div>
           <div className="w-full  mt-10 flex flex-row justify-between">
