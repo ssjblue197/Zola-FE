@@ -4,11 +4,18 @@ import { faGoogle, faFacebook, faTwitter} from "@fortawesome/free-brands-svg-ico
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import authBG from "../../assets/bg.png"
 import logoApp from "../../assets/logo_transparent.png"
+import { useAppDispatch, useAppSelector } from  '@/app/hooks'
+import { login, loginSuccess } from './authSlice'
+
 
 export interface LoginProps {
 }
 
 export function Login (props: LoginProps) {
+  const userInfo = useAppSelector((state) => state.auth)
+  const dispatch = useAppDispatch()
+  console.log(userInfo);
+  
   return (
     <div className="flex flex-row w-screen h-screen">
       <div className="basis-1/2 bg-slate-200 sm:basis-0">
@@ -34,11 +41,11 @@ export function Login (props: LoginProps) {
           <div className="w-full flex flex-col">
             <div className="w-full mt-4 flex flex-row justify-between items-center">
               <span className="text-gray-600 font-semibold text-xl mr-2 basis-1/5 lg:hidden truncate ">Email</span>
-              <input placeholder="Your email" type="email" className="basis-4/5 placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
+              <input placeholder="Your email" type="email" className="required invalid:ring-red-500 basis-4/5 placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
             </div>
             <div className="w-full mt-4 flex flex-row justify-between items-center">
               <span className="text-gray-600 font-semibold text-xl mr-2 basis-1/5 lg:hidden truncate">Password</span>
-              <input placeholder="Your password" type="password" className="basis-4/5 placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
+              <input placeholder="Your password" type="password" className="required invalid:ring-red-500 basis-4/5 placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
             </div>
           </div>
           <div className="w-full  mt-10 flex flex-row justify-between">

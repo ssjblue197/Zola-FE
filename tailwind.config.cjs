@@ -1,16 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 
-
 module.exports = {
   darkMode: 'class',
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {},
     screens: {
-      sm: { 'max': '480px' },
-      md: { 'max': '768px' },
-      lg: { 'max': '976px' },
-      xl: { 'max': '1440px' },
+      sm: { max: '480px' },
+      md: { max: '768px' },
+      lg: { max: '976px' },
+      xl: { max: '1440px' },
     },
     fontFamily: {
       sans: ['Source Sans Pro', 'sans'],

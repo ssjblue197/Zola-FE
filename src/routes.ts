@@ -25,7 +25,7 @@ const publicRoutes = [
 
 const privateRoutes = [
     {
-        path: '/home',
+        path: '/',
         component: Home,
         layout: MainLayout
     },

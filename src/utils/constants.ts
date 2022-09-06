@@ -7,10 +7,13 @@ export const APP_CONFIG = {
         CURRENT_USER: 'App-current-user'
     },
     ENTRY_POINTS: {
-        BASE_URL: '/api',
+        BASE_URL: 'http://localhost:3000/api',
         auth: {
-            login: '/login',
-            logout: '/logout'
+            login: '/auth/login',
+            logout: '/auth/logout',
+            register: '/auth/register',
+            google: '/auth/google',
+            facebook: '/auth/facebook'
         },
     }
 }

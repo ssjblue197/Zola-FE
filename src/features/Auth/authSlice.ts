@@ -1,18 +1,45 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '@/app/store'
+import { User } from '@/models'
+
+export interface LoginPayload {
+    email: string,
+    password: string
+}
+export interface AuthState {
+    isLoggedIn: boolean,
+    logging?: boolean,
+    currentUser?: User
+}
+
+const initialState: AuthState = {
+    isLoggedIn: false,
+    logging: false,
+    currentUser: undefined
+}
 
 const authSlice = createSlice({
     name: 'auth',
-    initialState: {},
+    initialState,
     reducers: {
-        postLogin(state, action) {
+        login(state, action: PayloadAction<LoginPayload>) {
 
         },
-        postLogout(state, action) {
+        loginSuccess(state, action: PayloadAction<User>) {
 
-        }
+        },
+        loginFailed(state, action: PayloadAction<any>) {
+
+        },
+
+        logout(state) {
+
+        } 
     },
 })
 
 const { actions, reducer } = authSlice;
-export const { postLogin, postLogout } = actions
+export const { login, loginSuccess } = actions
+// Other code such as selectors can use the imported `RootState` type
+export const selectUserInfo = (state: RootState) => state.auth
 export default reducer
