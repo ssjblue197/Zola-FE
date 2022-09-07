@@ -1,4 +1,4 @@
-import { faHouse, faPhone, faComment, faFolder, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faPhone, faComment, faFolder, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 export const MENU_SIDEBAR = [
     {
@@ -25,8 +25,19 @@ export const MENU_SIDEBAR = [
         title: 'Folder'
     },
     {
+        icon: null,
+        name: 'Space',
+        title: 'Space'
+    },
+    {
         icon: faGear,
         name: 'Settings',
         title: 'Settings'
+    },
+    {
+        icon: faRightFromBracket,
+        name: 'Logout',
+        title: 'Logout',
+        url: '/logout'
     }
 ]

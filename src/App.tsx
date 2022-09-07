@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { publicRoutes, privateRoutes, loginRoute } from './routes'
-import { checkIsAuthenticated } from '@/utils/auth'
+import { appRoutes } from './routes'
 
 function App() {
 
@@ -9,49 +8,15 @@ function App() {
       <div className="m-0 p-0 w-screen h-screen">
         <Routes>
           {
-            loginRoute.map((route, index) => {
+            appRoutes.map((route, index) => {
               const Layout = route.layout
               const Page = route.component
               return (<Route
                 key={index}
                 path={route.path}
-                element={
-                  checkIsAuthenticated()
-                    ? <Navigate to="/home" />
-                    : <Layout><Page /></Layout>
-                }
+                element={<Layout><Page /></Layout>}
               >
               </Route>)
-            })
-          }
-          {
-            publicRoutes.map((route, index) => {
-              const Layout = route.layout
-              const Page = route.component
-              return (<Route
-                key={index}
-                path={route.path}
-                element={
-                  <Layout><Page /></Layout>
-                }>
-              </Route>)
-            })
-          }
-          {
-            privateRoutes.map((route, index) => {
-              const Layout = route.layout
-              const Page = route.component
-              return (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    checkIsAuthenticated()
-                      ? <Layout><Page /></Layout>
-                      : <Navigate to="/login" />
-                  }>
-                </Route>
-              )
             })
           }
         </Routes>

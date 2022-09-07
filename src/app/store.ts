@@ -2,9 +2,43 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 // import counterReducer from '../features/counter/counterSlice';
 // import { routerMiddleware } from 'connected-react-router';
 // import history from '@/utils/history';
+import {combineReducers} from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from './rootSaga'
+import rootSaga from './rootSaga';
 import authReducer from '@/features/Auth/authSlice';
+import { routerMiddleware, connectRouter } from 'connected-react-router';
+import history from '@/utils/history';
+
+//Lib to config Redux-persist (Duy trì trạng thái của state khi load lại trang)
+import { 
+    persistReducer,
+    persistStore,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+
+
+//Combine all reducesr into one rootReducers
+const rootReducer = combineReducers({ 
+    auth: authReducer,
+    router: connectRouter(history),
+})
+
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: ['auth'], //Danh sách duy trì state
+    stateReconciler: autoMergeLevel2,
+  }
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 
 // Create the store with middlewares
 // 1. sagaMiddleware: Makes redux-sagas work
@@ -14,14 +48,18 @@ const sagaMiddleware = createSagaMiddleware()
 // const routerHistoryMiddleware = routerMiddleware(history)
 
 export const store = configureStore({
-    reducer: {
-        auth: authReducer
-    },
-    devTools: true,
+    reducer: persistedReducer,
+    // devTools: false,
     middleware: (getDefaultMiddle) => {
-        return getDefaultMiddle().concat(sagaMiddleware)
+        return getDefaultMiddle({
+            serializableCheck: {
+              ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
+          }).concat(sagaMiddleware).concat(routerMiddleware(history))
     },
 });
+
+export const persistor = persistStore(store);
 
 sagaMiddleware.run(rootSaga);
 

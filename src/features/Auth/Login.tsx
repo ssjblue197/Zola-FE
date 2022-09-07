@@ -5,21 +5,31 @@ import authBG from "../../assets/bg.png"
 import logoApp from "../../assets/logo_transparent.png"
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { login, selectAuthState } from './authSlice'
+import { useNavigate } from 'react-router-dom'
 export interface LoginProps {
 }
 
 export function Login(props: LoginProps) {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const AuthState = useAppSelector(selectAuthState)
+  
   useEffect(() => {
     if (AuthState.isLoggedIn) {
-      window.location.href = '/'
+      navigate('/')
     }
   }, [AuthState.isLoggedIn])
   const [userInfo, setUserInfo] = useState({
     email: '',
     password: '',
   })
+
+  const handleKeyEnter = (e:any) => {
+    if (e.code === 'Enter') {
+      dispatch(login(userInfo))
+    }
+    
+  }
 
   const submitLogin = (e: any) => {
     e.preventDefault();
@@ -41,11 +51,6 @@ export function Login(props: LoginProps) {
         </span>
         <div className="w-1/2 flex flex-col justify-center items-center">
           <div className="w-40 h-40 rounded-full bg-slate-300 flex justify-center items-center mb-4 shadow-xl ring-4">
-            {/* <FontAwesomeIcon icon={faUser} 
-              size="4x"
-              className=""
-              inverse
-            /> */}
             <img
               src={logoApp}
             />
@@ -65,6 +70,7 @@ export function Login(props: LoginProps) {
                     email: e.target.value
                   });
                 }}
+                onKeyDown={handleKeyEnter}
               >
               </input>
             </div>
@@ -82,6 +88,7 @@ export function Login(props: LoginProps) {
                     password: e.target.value
                   });
                 }}
+                onKeyDown={handleKeyEnter}
               ></input>
             </div>
           </div>

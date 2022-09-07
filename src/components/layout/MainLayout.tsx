@@ -5,10 +5,11 @@ export interface MainLayoutProps {
 }
 
 export function MainLayout({ children }: MainLayoutProps) {
+  
   return (
     <div>
       {/* <Header /> */}
-      <div className="w-screen h-screen flex">
+      <div className="w-screen h-screen flex bg-slate-200">
         <SideBar></SideBar>
         <div>{children}</div>
       </div>

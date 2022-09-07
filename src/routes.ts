@@ -4,16 +4,10 @@ import { Home } from './features/Home'
 import { NotFound } from './components/common/NotFound'
 import { Call } from './features/Call'
 import { Contact } from './features/Contact'
+import { Messages } from './features/Messages'
 
 
-const loginRoute = [{
-    path: '/login',
-    exact: true,
-    component: Login,
-    layout: AuthLayout
-}]
-
-const publicRoutes = [
+const appRoutes = [
     {
         path: '/register',
         exact: true,
@@ -21,13 +15,11 @@ const publicRoutes = [
         layout: AuthLayout
     },
     {
-        path: '/*',
-        component: NotFound,
+        path: '/login',
+        exact: true,
+        component: Login,
         layout: AuthLayout
-    }
-]
-
-const privateRoutes = [
+    },
     {
         path: '/',
         component: Home,
@@ -44,10 +36,20 @@ const privateRoutes = [
         layout: MainLayout
     },
     {
+        path: '/messages',
+        component: Messages,
+        layout: MainLayout
+    },
+    {
         path: '/home',
         component: Home,
         layout: MainLayout
     },
+    {
+        path: '/*',
+        component: NotFound,
+        layout: AuthLayout
+    },
 ]
 
-export { publicRoutes, privateRoutes, loginRoute }
+export { appRoutes }
