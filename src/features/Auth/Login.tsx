@@ -1,21 +1,33 @@
-import * as React from 'react';
-import { faUser, faQuestion } from "@fortawesome/free-solid-svg-icons";
-import { faGoogle, faFacebook, faTwitter} from "@fortawesome/free-brands-svg-icons";
+import { useState, useEffect } from 'react';
+import { faGoogle, faFacebook, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import authBG from "../../assets/bg.png"
 import logoApp from "../../assets/logo_transparent.png"
-import { useAppDispatch, useAppSelector } from  '@/app/hooks'
-import { login, loginSuccess } from './authSlice'
-
-
+import { useAppDispatch, useAppSelector } from '@/app/hooks'
+import { login, selectAuthState } from './authSlice'
 export interface LoginProps {
 }
 
-export function Login (props: LoginProps) {
-  const userInfo = useAppSelector((state) => state.auth)
+export function Login(props: LoginProps) {
   const dispatch = useAppDispatch()
-  console.log(userInfo);
-  
+  const AuthState = useAppSelector(selectAuthState)
+  useEffect(() => {
+    if (AuthState.isLoggedIn) {
+      window.location.href = '/'
+    }
+  }, [AuthState.isLoggedIn])
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    password: '',
+  })
+
+  const submitLogin = (e: any) => {
+    e.preventDefault();
+    dispatch(login(userInfo))
+  }
+
+
+
   return (
     <div className="flex flex-row w-screen h-screen">
       <div className="basis-1/2 bg-slate-200 sm:basis-0">
@@ -41,11 +53,36 @@ export function Login (props: LoginProps) {
           <div className="w-full flex flex-col">
             <div className="w-full mt-4 flex flex-row justify-between items-center">
               <span className="text-gray-600 font-semibold text-xl mr-2 basis-1/5 lg:hidden truncate ">Email</span>
-              <input placeholder="Your email" type="email" className="required invalid:ring-red-500 basis-4/5 placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
+              <input placeholder="Your email" type="email"
+                className="required invalid:ring-red-500 basis-4/5 
+                  placeholder-slate-500 form-input px-3 py-3 rounded-xl 
+                  bg-slate-300 border-none shadow-md caret-gray-500 
+                  text-gray-700 text-xl"
+                value={userInfo.email}
+                onChange={(e) => {
+                  setUserInfo({
+                    ...userInfo,
+                    email: e.target.value
+                  });
+                }}
+              >
+              </input>
             </div>
             <div className="w-full mt-4 flex flex-row justify-between items-center">
               <span className="text-gray-600 font-semibold text-xl mr-2 basis-1/5 lg:hidden truncate">Password</span>
-              <input placeholder="Your password" type="password" className="required invalid:ring-red-500 basis-4/5 placeholder-slate-500 form-input px-3 py-3 rounded-xl bg-slate-300 border-none shadow-md caret-gray-500 text-gray-700 text-xl"></input>
+              <input placeholder="Your password" type="password"
+                className="required invalid:ring-red-500 basis-4/5 
+                  placeholder-slate-500 form-input px-3 py-3 rounded-xl 
+                  bg-slate-300 border-none shadow-md caret-gray-500 
+                  text-gray-700 text-xl"
+                value={userInfo.password}
+                onChange={(e) => {
+                  setUserInfo({
+                    ...userInfo,
+                    password: e.target.value
+                  });
+                }}
+              ></input>
             </div>
           </div>
           <div className="w-full  mt-10 flex flex-row justify-between">
@@ -63,20 +100,23 @@ export function Login (props: LoginProps) {
             </span>
           </div>
           <div className=" w-full mt-10">
-            <button className="btn-success w-full py-3 text-xl">Login</button>
+            <button className={AuthState.logging ? 'btn-success w-full py-3 text-xl disabled' : 'btn-success w-full py-3 text-xl'}
+              onClick={submitLogin}>
+              Login
+            </button>
           </div>
-          <div className=" w-full mt-2 btn-danger flex place-content-center flex-row text-xl">
+          <div className="cursor-pointer w-full mt-2 btn-danger flex place-content-center flex-row text-xl">
             <button className="mr-2">
-              <FontAwesomeIcon icon={faGoogle} 
+              <FontAwesomeIcon icon={faGoogle}
                 className=""
                 inverse
               />
             </button>
             <span className="truncate md:invisible">Signin with Google</span>
           </div>
-          <div className="btn-primary w-full mt-2 flex place-content-center flex-row text-xl">
+          <div className="cursor-pointer btn-primary w-full mt-2 flex place-content-center flex-row text-xl">
             <button className="mr-2">
-              <FontAwesomeIcon icon={faFacebook} 
+              <FontAwesomeIcon icon={faFacebook}
                 className=""
                 inverse
               />
@@ -85,7 +125,7 @@ export function Login (props: LoginProps) {
           </div>
         </div>
         <span className="mb-10 text-xl text-gray-700">
-          Don't have an account yet? 
+          Don't have an account yet?
           <span
             className="font-semibold ml-2 text-blue-500 text-xl"
           >Sign Up

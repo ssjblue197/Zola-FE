@@ -35,6 +35,42 @@ export const removeAccessTokenExpire = () => {
     }
 }
 
+
+export const setRefreshToken = (token: string) => {
+    if (!!token) {
+        localStorage.setItem(APP_CONFIG.LOCAL_STORAGE.REFRESH_TOKEN, token);
+    }
+}
+
+export const setRefreshTokenExpire = (expired: string) => {
+    if (!!expired) {
+        localStorage.setItem(APP_CONFIG.LOCAL_STORAGE.REFRESH_TOKEN_EXPIRES, expired);
+    }
+}
+
+export const getRefreshToken = () => {
+    return localStorage.getItem(APP_CONFIG.LOCAL_STORAGE.REFRESH_TOKEN);
+}
+
+export const getRefreshTokenExpire = () => {
+    return localStorage.getItem(APP_CONFIG.LOCAL_STORAGE.REFRESH_TOKEN_EXPIRES);
+}
+
+export const removeRefreshToken = () => {
+    const token = localStorage.getItem(APP_CONFIG.LOCAL_STORAGE.REFRESH_TOKEN);
+    if (!!token) {
+        localStorage.removeItem(APP_CONFIG.LOCAL_STORAGE.REFRESH_TOKEN);
+    }
+}
+
+export const removeRefreshTokenExpire = () => {
+    const token = localStorage.getItem(APP_CONFIG.LOCAL_STORAGE.REFRESH_TOKEN_EXPIRES);
+    if (!!token) {
+        localStorage.removeItem(APP_CONFIG.LOCAL_STORAGE.REFRESH_TOKEN_EXPIRES);
+    }
+}
+
+
 export const getCurrentUser = () => {
     return localStorage.getItem(APP_CONFIG.LOCAL_STORAGE.CURRENT_USER);
 }
@@ -56,6 +92,7 @@ export const checkIsAuthenticated = () => {
     if (!!getCurrentUser() && !!getAccessToken() && !!getAccessTokenExpire()) {
         const countDown = moment().diff(moment(getAccessTokenExpire()));
         console.log(countDown);
+
         if (countDown < 0) {
             return true;
         }
