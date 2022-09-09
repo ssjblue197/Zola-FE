@@ -1,7 +1,4 @@
 import * as React from 'react';
-import { faUser, faQuestion } from "@fortawesome/free-solid-svg-icons";
-import { faGoogle, faFacebook, faTwitter} from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import authBG from "../../assets/bg.png"
 import logoApp from "../../assets/logo_transparent.png"
 
@@ -22,11 +19,6 @@ export function Register (props: RegisterProps) {
         </span>
         <div className="w-1/2 flex flex-col justify-center items-center">
           <div className="w-40 h-40 rounded-full bg-slate-300 flex justify-center items-center mb-4 shadow-xl ring-4">
-            {/* <FontAwesomeIcon icon={faUser} 
-              size="4x"
-              className=""
-              inverse
-            /> */}
             <img
               src={logoApp}
             />
