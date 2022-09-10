@@ -1,4 +1,4 @@
-import { faHouse, faPhone, faComment, faFolder, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faUsers,  faPhone, faComment, faFolder, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 export const MENU_SIDEBAR = [
     {
@@ -18,6 +18,11 @@ export const MENU_SIDEBAR = [
         name: 'Messages',
         title: 'Messages',
         url: '/messages'
+    },
+    {
+        icon: faUsers,
+        name: 'Contact',
+        title: 'Contact',
     },
     {
         icon: faFolder,

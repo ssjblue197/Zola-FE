@@ -15,5 +15,8 @@ export const APP_CONFIG = {
             google: '/auth/google',
             facebook: '/auth/facebook'
         },
+        conversation: {
+            index: '/conversations'
+        }
     }
 }

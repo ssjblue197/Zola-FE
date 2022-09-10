@@ -9,9 +9,9 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <div>
       {/* <Header /> */}
-      <div className="w-screen h-screen flex bg-slate-200">
+      <div className="w-screen h-screen flex bg-slate-100 text-2xl">
         <SideBar></SideBar>
-        <div>{children}</div>
+        <div className="w-full h-full flex">{children}</div>
       </div>
       {/* <Footer /> */}
     </div>

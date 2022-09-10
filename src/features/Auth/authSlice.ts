@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '@/app/store'
 import { User } from '@/models'
+import { toast } from 'react-toastify';
 import {
     setAccessToken,
     setAccessTokenExpire,
@@ -49,7 +50,15 @@ const authSlice = createSlice({
         },
         loginSuccess(state, action: any) {
             const data = action.payload
-            console.log(data);
+            toast.success('Login successfully!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
             
             state.logging = false;
             state.currentUser = action.payload.user
@@ -65,8 +74,18 @@ const authSlice = createSlice({
             setCurrentUser(data.user)
         },
         loginFailed(state, action: any) {
+            console.log(action);
             state.logging = false;
             state.isLoggedIn = false;
+            toast.error(action.payload.response.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
         },
         logout(state, action: any) {
             state.isLoggedIn = false;
@@ -85,8 +104,19 @@ const authSlice = createSlice({
             setRefreshToken('');
             setRefreshTokenExpire('');
             setCurrentUser('');
+            toast.success('Logout successfully!', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
         },
         logoutFailed(state, action: any) {
+            console.log(action);
+            
             state.logging = false;
             state.currentUser = undefined
             state.isLoggedIn = false;
@@ -99,6 +129,15 @@ const authSlice = createSlice({
             setRefreshToken('');
             setRefreshTokenExpire('');
             setCurrentUser('');
+            toast.error(action.payload.response.data, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                });
         },
     },
 })

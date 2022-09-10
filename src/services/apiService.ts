@@ -1,7 +1,9 @@
 import Authentication from './modules/auth'
+import Conversation from './modules/conversation'
 
 const repositories: any = {
-    auth: Authentication
+    auth: Authentication,
+    conversation: Conversation
 }
 
 export const apiService = {

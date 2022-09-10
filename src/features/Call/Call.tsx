@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
+
 export interface CallProps {
 }
 
@@ -7,7 +9,16 @@ export function Call(props: CallProps) {
 
     const navigate = useNavigate()
     const contactPage = () => {
-        navigate('/contact');
+        // navigate('/contact');
+        toast.info('🦄 Wow so easy!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
     }
 
     return (
