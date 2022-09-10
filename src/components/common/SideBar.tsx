@@ -19,7 +19,7 @@ export function SideBar(props: SideBarProps) {
   const dispatch = useAppDispatch()
   const [menuActive, setMenuActive] = useState(MENU_SIDEBAR[0])
   const navigate = useNavigate()
-  const navigateToItem = (item:any) => {
+  const navigateToItem = (item: any) => {
     if (item.url) {
       setMenuActive(item)
       if (item.url !== '/logout') {
@@ -41,7 +41,9 @@ export function SideBar(props: SideBarProps) {
             return (
               <button
                 onClick={() => navigateToItem(item)}
-                key={index} className="hover:bg-blue-500 rounded-full p-2 m-4">
+                key={index} className={
+                  menuActive.name === item.name ? 'bg-blue-600 rounded-full p-2 m-4' : 'hover:bg-blue-500 rounded-full p-2 m-4'
+                }>
                 <FontAwesomeIcon icon={item.icon}
                   className="slate-300"
                   size="2x"
