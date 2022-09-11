@@ -6,6 +6,7 @@ import {combineReducers} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 import authReducer from '@/features/Auth/authSlice';
+import messageReducer from '@/features/Messages/messageSlice';
 import { routerMiddleware, connectRouter } from 'connected-react-router';
 import history from '@/utils/history';
 
@@ -28,12 +29,13 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 const rootReducer = combineReducers({ 
     auth: authReducer,
     router: connectRouter(history),
+    message: messageReducer
 })
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['auth'], //Danh sách duy trì state
+    whitelist: ['auth', 'message'], //Danh sách duy trì state
     stateReconciler: autoMergeLevel2,
   }
 

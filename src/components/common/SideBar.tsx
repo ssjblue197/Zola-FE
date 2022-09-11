@@ -46,11 +46,11 @@ export function SideBar(props: SideBarProps) {
             return (
               <button
                 onClick={() => navigateToItem(item)}
-                key={index} className="hover:bg-blue-200 shadow-md rounded-full p-2 m-3"
+                key={index} className="hover:bg-blue-200 shadow-md rounded-full p-2 m-3 w-12 h-12"
                 style={{ color: `${menuActive.name === item.name ? '#2f9ace' : '#c6c6c6'}` }}
               >
                 <FontAwesomeIcon icon={item.icon}
-                  className="slate-300 translate-y-1"
+                  className="slate-300"
                   size="1x"
                 />
               </button>

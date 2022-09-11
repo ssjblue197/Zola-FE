@@ -17,6 +17,9 @@ export const APP_CONFIG = {
         },
         conversation: {
             index: '/conversations'
+        },
+        message: {
+            index: '/messages'
         }
     }
 }

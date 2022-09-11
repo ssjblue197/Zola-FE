@@ -4,26 +4,38 @@ import { faMagnifyingGlass, faXmark, faThumbTack, faCircleNodes } from '@fortawe
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PrivateMessage, GroupMessage } from '@/components/common';
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { getMessageList, selectMessageState } from './messageSlice'
-import { selectAuthState } from '../Auth/authSlice'
+import { getMessageList, selectMessageState, setSelectedConversation } from './messageSlice'
+import { selectAuthState } from '../Auth/authSlice';
+import { Conversation } from './Conversation';
 
 export interface MessagesProps {
 }
 
 export function Messages(props: MessagesProps) {
   const authState = useAppSelector(selectAuthState);
-  const currentUserID = authState.currentUser.id;
+  const messageState = useAppSelector(selectMessageState);
+  const selectedConversation = messageState.selectedConversation;
+  console.log(selectedConversation);
+  
+  const currentUserID = authState.currentUser?.id;
   const dispatch = useAppDispatch();
+  
   useEffect(() => {
     dispatch(getMessageList({
       userID: currentUserID
     }))
-  }, [])
+  }, [currentUserID])
+
+  const changeConversation = (newConversation: any) => {
+    dispatch(setSelectedConversation(newConversation));
+  }
+
+
   return (
     <div className="flex flex-nowrap w-full h-full justify-center text-slate-700">
       <div className="flex-col bg-slate-100 h-full lg:basis-1/3 xl:basis-2/5 basis-1/5">
         {/* lIST FRIEND ONLINE */}
-        <div className="flex flex-row justify-start p-4">
+        <div className="flex flex-row justify-start p-2">
           <div className="rounded-full w-14 h-14 bg-blue-300 m-2"></div>
           <div className="rounded-full w-14 h-14 bg-blue-300 m-2"></div>
           <div className="rounded-full w-14 h-14 bg-blue-300 m-2"></div>
@@ -93,13 +105,17 @@ export function Messages(props: MessagesProps) {
           <span className="uppercase text-lg text-slate-500">All Messages</span>
         </div>
         <div className="flex flex-col">
-          <PrivateMessage />
+          { messageState.conversationList && messageState.conversationList.map(conversation => {
+            return (
+              <PrivateMessage onClick={changeConversation} conversation={conversation} currentUser={authState.currentUser} selectedConversation={selectedConversation}/>
+            )
+          })}
         </div>
       </div>
 
       {/* CONTENT MESSAGE */}
       <div className="flex-col bg-blue-100 h-full xl:basis-2/3 basis-3/5">
-        sdfwefsd
+        <Conversation conversation={selectedConversation}/>
       </div>
 
 
