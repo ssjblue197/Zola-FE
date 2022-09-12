@@ -6,6 +6,9 @@ export const APP_CONFIG = {
         REFRESH_TOKEN_EXPIRES: 'App_RefreshToken_Expires',
         CURRENT_USER: 'App-current-user'
     },
+    SOCKET: {
+        BASE_URL: 'ws://localhost:3000'
+    },
     ENTRY_POINTS: {
         BASE_URL: 'http://localhost:3000/api',
         auth: {

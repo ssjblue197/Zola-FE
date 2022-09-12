@@ -1,6 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
-import { selectMessageState, getConversationDetail } from '../messageSlice'
+import {
+    selectMessageState,
+    getConversationDetail,
+    sendMessage
+} from '../messageSlice'
 import { MessageContent } from '.';
 import {
     faPhone, faMagnifyingGlass,
@@ -16,15 +20,45 @@ export interface ConversationProps {
 }
 
 export function Conversation({ conversation, currentUser }: ConversationProps) {
+    const scrollRef = useRef();
     const dispatch = useAppDispatch();
     const messageList = useAppSelector(selectMessageState).selectedConversationDetail;
     const currentUserID = currentUser.id;
+    const [messageText, setMessageText] = useState('');
+
+
     useEffect(() => {
         dispatch(getConversationDetail({
             userID: currentUserID,
             conversationID: conversation?.id
         }))
     }, [conversation])
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({
+            behavior: "smooth"
+        })
+
+    }, [messageList])
+
+
+    const changeMessage = (e: any) => {
+        setMessageText(e.target.value);
+    }
+
+    const handleSendMessage = async () => {
+        if (messageText) {
+            const payload = {
+                conversationID: conversation?.id,
+                sender: currentUser.id,
+                messageType: 'text',
+                message: messageText
+            }
+            await dispatch(sendMessage(payload));
+            setMessageText('');
+        }
+    }
+
     const getTitleConversation = (conversation: any, currentUserID: any) => {
         const otherMember = conversation.memberList.filter((member: any) => member.id !== currentUserID);
         if (otherMember.length > 1) {
@@ -73,10 +107,13 @@ export function Conversation({ conversation, currentUser }: ConversationProps) {
                     />
                 </div>
             </div>
-            <div className="flex flex-col flex-1 bg-slate-200 relative p-4 overflow-y-auto overflow-x-hidden">
-                {messageList?.length > 0 && messageList.map((message: any) => {
+            <div className="flex flex-col flex-1 bg-slate-200 relative p-4 
+                overflow-y-auto overflow-x-hidden myscroll">
+                {messageList?.length > 0 && messageList.map((message: any, index: any) => {
                     return (
                         <span
+                            key={index}
+                            ref={scrollRef}
                             className={
                                 message.sender.id === currentUserID
                                     ? 'w-full relative m-1 flex flex-row justify-end'
@@ -98,8 +135,10 @@ export function Conversation({ conversation, currentUser }: ConversationProps) {
                     />
                 </div>
                 <textarea name="message" id="message"
-                    className="w-full rounded-xl border-none focus:ring-0 text-xl h-16 resize-none"
+                    className="w-full rounded-xl border-none focus:ring-0 text-xl h-16 resize-none myscroll flex items-center"
                     placeholder="Type something..."
+                    value={messageText}
+                    onChange={changeMessage}
                 ></textarea>
                 <FontAwesomeIcon icon={faMicrophoneLines}
                     className="cursor-pointer text-blue-300 m-2 active:text-blue-500"
@@ -112,6 +151,7 @@ export function Conversation({ conversation, currentUser }: ConversationProps) {
                 <FontAwesomeIcon icon={faPaperPlane}
                     className="cursor-pointer text-blue-300 m-2 active:text-blue-500"
                     size="1x"
+                    onClick={handleSendMessage}
                 />
             </div>
         </div>

@@ -7,5 +7,10 @@ export default {
         const response = await axiosClient.get(`${resource}/${payload.conversationID}/${payload.userID}`);
         return response;
     },
+    async sendMessage(payload: any) {
+        const response = await axiosClient.post(`${resource}/send`, payload);
+
+        return response;
+    }
 
 }

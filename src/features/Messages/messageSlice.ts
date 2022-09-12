@@ -20,37 +20,48 @@ const messageSlice = createSlice({
     name: 'message',
     initialState: initialState,
     reducers: {
-        getMessageList(state, action: PayloadAction<any>){
+        getMessageList(state, action: PayloadAction<any>) {
         },
-        getMessageListSuccess(state, action: any){
+        getMessageListSuccess(state, action: any) {
             const data = action.payload;
             state.conversationList = data.data
         },
-        getMessageListFailure(state, action: any){
+        getMessageListFailure(state, action: any) {
 
         },
-        getConversationDetail(state, action: any){
+        getConversationDetail(state, action: any) {
 
         },
-        getConversationDetailSuccess(state, action: any){
+        getConversationDetailSuccess(state, action: any) {
             state.selectedConversationDetail = action.payload.data
         },
-        getConversationDetailFailure(state, action: any){
+        getConversationDetailFailure(state, action: any) {
 
         },
         setSelectedConversation(state, action: any) {
             state.selectedConversation = action.payload;
+        },
+        sendMessage(state, action: any) {
+            // console.log(action.payload);
+        },
+        sendMessageSuccess(state, action: any) {
+            state.selectedConversationDetail = [...state.selectedConversationDetail, action.payload.data]
+        },
+        sendMessageFailure(state, action: any) {
         }
     }
 })
 
 const { actions, reducer } = messageSlice;
-export const { getMessageList, 
-    getMessageListSuccess, 
-    getMessageListFailure, 
-    getConversationDetail, 
+export const { getMessageList,
+    getMessageListSuccess,
+    getMessageListFailure,
+    getConversationDetail,
     getConversationDetailSuccess,
     getConversationDetailFailure,
-    setSelectedConversation } = actions;
+    setSelectedConversation,
+    sendMessage,
+    sendMessageSuccess,
+    sendMessageFailure } = actions;
 export const selectMessageState = (state: RootState) => state.message
 export default reducer

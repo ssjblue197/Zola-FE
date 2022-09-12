@@ -33,6 +33,10 @@
     .btn-danger {
         @apply py-3 px-4 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:bg-red-400 focus:ring-opacity-75
     }
+
+    .myscroll {
+        @apply scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-200 hover:scrollbar-thumb-slate-400 scrollbar-thumb-rounded-xl
+    }
     
 }
 

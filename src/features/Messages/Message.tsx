@@ -15,7 +15,6 @@ export function Messages(props: MessagesProps) {
   const authState = useAppSelector(selectAuthState);
   const messageState = useAppSelector(selectMessageState);
   const selectedConversation = messageState.selectedConversation;
-  console.log(selectedConversation);
 
   const currentUserID = authState.currentUser?.id;
   const dispatch = useAppDispatch();
@@ -25,6 +24,12 @@ export function Messages(props: MessagesProps) {
       userID: currentUserID
     }))
   }, [currentUserID])
+
+  useEffect(() => {
+    if (messageState.conversationList && messageState.conversationList.length > 0) {
+      dispatch(setSelectedConversation(messageState.conversationList[0]));
+    }
+  }, [])
 
   const changeConversation = (newConversation: any) => {
     dispatch(setSelectedConversation(newConversation));
@@ -105,9 +110,16 @@ export function Messages(props: MessagesProps) {
           <span className="uppercase text-lg text-slate-500">All Messages</span>
         </div>
         <div className="flex flex-col">
-          {messageState.conversationList && messageState.conversationList.map(conversation => {
+          {messageState.conversationList && messageState.conversationList.map((conversation: any, index: any) => {
             return (
-              <PrivateMessage onClick={changeConversation} conversation={conversation} currentUser={authState.currentUser} selectedConversation={selectedConversation} />
+              <React.Fragment key={index}>
+                <PrivateMessage
+                  onClick={changeConversation}
+                  conversation={conversation}
+                  currentUser={authState.currentUser}
+                  selectedConversation={selectedConversation}
+                />
+              </React.Fragment>
             )
           })}
         </div>
@@ -115,12 +127,16 @@ export function Messages(props: MessagesProps) {
 
       {/* CONTENT MESSAGE */}
       <div className="flex-col bg-blue-100 h-full flex-1">
-        <Conversation conversation={selectedConversation} currentUser={authState.currentUser} />
+        {
+          selectedConversation && selectedConversation.id && authState.currentUser && authState.currentUser.id && (
+            <Conversation conversation={selectedConversation} currentUser={authState.currentUser} />
+          )
+        }
       </div>
 
 
       {/* MESSAGE INFO */}
-      <div className="flex-col bg-slate-100 w-80 xl:hidden">
+      <div className="flex-col bg-slate-100 w-80 hidden">
         453454
       </div>
     </div>

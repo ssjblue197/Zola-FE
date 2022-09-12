@@ -41,18 +41,20 @@ export function SideBar(props: SideBarProps) {
       </div>
 
       {
-        MENU_SIDEBAR.map((item, index) => {
+        MENU_SIDEBAR.map((item: any, index: any) => {
           if (item.icon) {
             return (
-              <button
-                onClick={() => navigateToItem(item)}
-                key={index} className="hover:bg-blue-200 shadow-md rounded-full p-2 m-3 w-12 h-12"
-              >
-                <FontAwesomeIcon icon={item.icon}
-                  className={menuActive.name === item.name ? 'text-sky-500' : 'text-slate-400'}
-                  size="1x"
-                />
-              </button>
+              <React.Fragment key={index}>
+                <button
+                  onClick={() => navigateToItem(item)}
+                  className="hover:bg-blue-200 shadow-md rounded-full p-2 m-3 w-12 h-12"
+                >
+                  <FontAwesomeIcon icon={item.icon}
+                    className={menuActive.name === item.name ? 'text-sky-500' : 'text-slate-400'}
+                    size="1x"
+                  />
+                </button>
+              </React.Fragment>
             )
           }
           return (
