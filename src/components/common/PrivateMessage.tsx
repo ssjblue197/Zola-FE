@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 // import { faPenToSquare, faComment } from '@fortawesome/free-regular-svg-icons';
-import { faCheckDouble, faCheck, faMicrophoneLines, faPaperclip, faPen, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckDouble, faPen, faCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from 'moment';
-import  userMale  from '../../assets/user-male.png';
-import userFemale from '../../assets/user-female.png';
+import { Avatar } from './Avatar';
 export interface PrivateMessageProps {
     conversation: any,
     currentUser: any,
@@ -19,12 +18,11 @@ export interface LastMessage {
 }
 
 export function PrivateMessage({ conversation, currentUser, selectedConversation, onClick }: PrivateMessageProps) {
-    
+
     const [conversationInfo, setConversationInfo] = useState({});
     const displayLastMessage = (message: LastMessage) => {
         if (!message) return '';
-        console.log(message.createdAt);
-        
+
         switch (message.messageType) {
             case 'text':
                 return message.message
@@ -38,7 +36,7 @@ export function PrivateMessage({ conversation, currentUser, selectedConversation
             case 'voice':
                 return 'Sent a voice record'
                 break;
-        
+
             default:
                 break;
         }
@@ -48,10 +46,10 @@ export function PrivateMessage({ conversation, currentUser, selectedConversation
         setConversationInfo(friendInfo)
     }, [conversation])
     return (
-        <div className={ conversation.id === selectedConversation?.id 
-                ? 'bg-blue-200 border-l-4 border-sky-500 w-full h-24 flex flex-row items-center px-2' 
-                : 'w-full h-24 flex flex-row items-center px-2 cursor-pointer hover:bg-blue-100' }
-            onClick={ () => onClick(conversation) }
+        <div className={conversation.id === selectedConversation?.id
+            ? 'bg-blue-200 border-l-4 border-sky-500 w-full h-24 flex flex-row items-center px-2'
+            : 'w-full h-24 flex flex-row items-center px-2 cursor-pointer hover:bg-blue-100'}
+            onClick={() => onClick(conversation)}
         >
             <div className="rounded-full bg-slate-400 w-16 h-16 relative text-xs">
                 <span className="h-3 w-3 flex absolute bottom-1 right-1 text-green-500">
@@ -60,21 +58,20 @@ export function PrivateMessage({ conversation, currentUser, selectedConversation
                     <FontAwesomeIcon icon={faCircle}
                         className="cursor-pointer" />
                 </span>
-                <img src={conversationInfo.profileImageUrl 
-                            ? conversationInfo.profileImageUrl 
-                            : conversationInfo.gender 
-                            ? conversationInfo.gender === 'male'
-                            ? userMale
-                            : userFemale
-                            : userMale }
-                    alt="avatar" className="rounded-full w-full h-full" />
+                <div className="w-full h-full md:hidden">
+                    <Avatar
+                        userInfo={conversationInfo}
+                    />
+                </div>
             </div>
             <div className="flex-1 flex flex-col px-4">
                 <span className="text-xl text-slate-700 mb-2 whitespace-nowrap text-ellipsis">
                     {
-                        conversationInfo.profileImageUrl
-                        ? conversationInfo.profileImageUrl
-                        : conversationInfo.firstName + " " + conversationInfo.lastName
+                        conversationInfo.displayName
+                            ? conversationInfo.profileImageUrl
+                            : conversationInfo.firstName && conversationInfo.lastName
+                                ? conversationInfo?.firstName + " " + conversationInfo?.lastName
+                                : conversationInfo.email
                     }
                 </span>
                 <span className="text-slate-400 text-md flex flex-row">
@@ -86,7 +83,7 @@ export function PrivateMessage({ conversation, currentUser, selectedConversation
                         is typing...
                     </span>
                     <span>
-                        { displayLastMessage(conversationInfo.lastMessage) }
+                        {displayLastMessage(conversationInfo.lastMessage)}
                     </span>
 
                 </span>

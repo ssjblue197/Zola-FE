@@ -6,7 +6,7 @@ import { PrivateMessage, GroupMessage } from '@/components/common';
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { getMessageList, selectMessageState, setSelectedConversation } from './messageSlice'
 import { selectAuthState } from '../Auth/authSlice';
-import { Conversation } from './Conversation';
+import { Conversation } from './components';
 
 export interface MessagesProps {
 }
@@ -16,10 +16,10 @@ export function Messages(props: MessagesProps) {
   const messageState = useAppSelector(selectMessageState);
   const selectedConversation = messageState.selectedConversation;
   console.log(selectedConversation);
-  
+
   const currentUserID = authState.currentUser?.id;
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     dispatch(getMessageList({
       userID: currentUserID
@@ -33,7 +33,7 @@ export function Messages(props: MessagesProps) {
 
   return (
     <div className="flex flex-nowrap w-full h-full justify-center text-slate-700">
-      <div className="flex-col bg-slate-100 h-full lg:basis-1/3 xl:basis-2/5 basis-1/5">
+      <div className="flex-col bg-slate-100 h-full w-86 md:w-64">
         {/* lIST FRIEND ONLINE */}
         <div className="flex flex-row justify-start p-2">
           <div className="rounded-full w-14 h-14 bg-blue-300 m-2"></div>
@@ -105,22 +105,22 @@ export function Messages(props: MessagesProps) {
           <span className="uppercase text-lg text-slate-500">All Messages</span>
         </div>
         <div className="flex flex-col">
-          { messageState.conversationList && messageState.conversationList.map(conversation => {
+          {messageState.conversationList && messageState.conversationList.map(conversation => {
             return (
-              <PrivateMessage onClick={changeConversation} conversation={conversation} currentUser={authState.currentUser} selectedConversation={selectedConversation}/>
+              <PrivateMessage onClick={changeConversation} conversation={conversation} currentUser={authState.currentUser} selectedConversation={selectedConversation} />
             )
           })}
         </div>
       </div>
 
       {/* CONTENT MESSAGE */}
-      <div className="flex-col bg-blue-100 h-full xl:basis-2/3 basis-3/5">
-        <Conversation conversation={selectedConversation}/>
+      <div className="flex-col bg-blue-100 h-full flex-1">
+        <Conversation conversation={selectedConversation} currentUser={authState.currentUser} />
       </div>
 
 
       {/* MESSAGE INFO */}
-      <div className="flex-col bg-slate-100 h-full xl:hidden basis-1/5">
+      <div className="flex-col bg-slate-100 w-80 xl:hidden">
         453454
       </div>
     </div>
