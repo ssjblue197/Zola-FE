@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { faPenToSquare, faComment } from '@fortawesome/free-regular-svg-icons';
 import { faMagnifyingGlass, faXmark, faThumbTack, faCircleNodes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import { getMessageList, selectMessageState, setSelectedConversation } from './messageSlice'
 import { selectAuthState } from '../Auth/authSlice';
 import { Conversation } from './components';
+import { SocketContext } from 'context/socket';
 
 export interface MessagesProps {
 }
@@ -18,18 +19,27 @@ export function Messages(props: MessagesProps) {
 
   const currentUserID = authState.currentUser?.id;
   const dispatch = useAppDispatch();
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
-    dispatch(getMessageList({
-      userID: currentUserID
-    }))
+    if (currentUserID) {
+      dispatch(getMessageList({
+        userID: currentUserID
+      }))
+    }
   }, [currentUserID])
 
   useEffect(() => {
+    console.log(messageState.conversationList);
+    console.log(currentUserID);
+    socket.emit('joinRoom', {
+      userID: currentUserID,
+      roomList: messageState.conversationList
+    })
     if (messageState.conversationList && messageState.conversationList.length > 0) {
       dispatch(setSelectedConversation(messageState.conversationList[0]));
     }
-  }, [])
+  }, [messageState.conversationList])
 
   const changeConversation = (newConversation: any) => {
     dispatch(setSelectedConversation(newConversation));

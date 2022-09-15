@@ -7,10 +7,10 @@ export const APP_CONFIG = {
         CURRENT_USER: 'App-current-user'
     },
     SOCKET: {
-        BASE_URL: 'ws://localhost:3000'
+        BASE_URL: 'ws://10.2.26.70:3000'
     },
     ENTRY_POINTS: {
-        BASE_URL: 'http://localhost:3000/api',
+        BASE_URL: 'http://10.2.26.70:3000/api',
         auth: {
             login: '/auth/login',
             logout: '/auth/logout',

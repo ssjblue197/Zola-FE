@@ -1,4 +1,4 @@
-import { faHouse, faUsers,  faPhone, faComment, faFolder, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faUsers, faPhone, faComment, faFolder, faGear, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 export const MENU_SIDEBAR = [
     {
@@ -43,6 +43,6 @@ export const MENU_SIDEBAR = [
         icon: faRightFromBracket,
         name: 'Logout',
         title: 'Logout',
-        url: '/logout'
+        url: '/login'
     }
 ]

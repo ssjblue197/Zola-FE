@@ -13,7 +13,7 @@ export function Login(props: LoginProps) {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const AuthState = useAppSelector(selectAuthState)
-  
+
   useEffect(() => {
     if (AuthState.isLoggedIn) {
       navigate('/')
@@ -24,11 +24,11 @@ export function Login(props: LoginProps) {
     password: '',
   })
 
-  const handleKeyEnter = (e:any) => {
+  const handleKeyEnter = (e: any) => {
     if (e.code === 'Enter') {
       dispatch(login(userInfo))
     }
-    
+
   }
 
   const submitLogin = (e: any) => {
@@ -134,9 +134,13 @@ export function Login(props: LoginProps) {
         <span className="mb-10 text-xl text-gray-700">
           Don't have an account yet?
           <span
-            className="font-semibold ml-2 text-blue-500 text-xl"
+            className="font-semibold ml-2 text-blue-500 text-xl cursor-pointer"
+            onClick={() => navigate('/register')}
           >Sign Up
           </span>
+          <button className="border-none">
+
+          </button>
         </span>
       </div>
     </div>

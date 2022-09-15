@@ -2,7 +2,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 // import counterReducer from '../features/counter/counterSlice';
 // import { routerMiddleware } from 'connected-react-router';
 // import history from '@/utils/history';
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './rootSaga';
 import authReducer from '@/features/Auth/authSlice';
@@ -11,7 +11,7 @@ import { routerMiddleware, connectRouter } from 'connected-react-router';
 import history from '@/utils/history';
 
 //Lib to config Redux-persist (Duy trì trạng thái của state khi load lại trang)
-import { 
+import {
     persistReducer,
     persistStore,
     FLUSH,
@@ -25,19 +25,26 @@ import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 
-//Combine all reducesr into one rootReducers
-const rootReducer = combineReducers({ 
-    auth: authReducer,
-    router: connectRouter(history),
-    message: messageReducer
-})
-
 const persistConfig = {
     key: 'root',
     storage,
     whitelist: ['auth', 'message'], //Danh sách duy trì state
     stateReconciler: autoMergeLevel2,
-  }
+}
+
+const messagePersistConfig = {
+    key: 'message',
+    storage,
+    blacklist: ['selectedConversationDetail', 'conversationList']
+}
+
+//Combine all reducesr into one rootReducers
+const rootReducer = combineReducers({
+    auth: authReducer,
+    router: connectRouter(history),
+    message: persistReducer(messagePersistConfig, messageReducer)
+})
+
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
@@ -55,9 +62,9 @@ export const store = configureStore({
     middleware: (getDefaultMiddle) => {
         return getDefaultMiddle({
             serializableCheck: {
-              ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
-          }).concat(sagaMiddleware).concat(routerMiddleware(history))
+        }).concat(sagaMiddleware).concat(routerMiddleware(history))
     },
 });
 

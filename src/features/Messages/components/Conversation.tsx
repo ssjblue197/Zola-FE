@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks'
 import {
     selectMessageState,
@@ -14,25 +14,37 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar, GroupAvatar } from '@/components/common';
+import { SocketContext } from 'context/socket';
+
 export interface ConversationProps {
     conversation: any,
     currentUser: any
 }
 
 export function Conversation({ conversation, currentUser }: ConversationProps) {
+    const socket = useContext(SocketContext);
     const scrollRef = useRef();
     const dispatch = useAppDispatch();
     const messageList = useAppSelector(selectMessageState).selectedConversationDetail;
     const currentUserID = currentUser.id;
     const [messageText, setMessageText] = useState('');
-
+    socket.on('newMessage', () => {
+        if (conversation && currentUserID) {
+            dispatch(getConversationDetail({
+                userID: currentUserID,
+                conversationID: conversation?.id
+            }))
+        }
+    })
 
     useEffect(() => {
-        dispatch(getConversationDetail({
-            userID: currentUserID,
-            conversationID: conversation?.id
-        }))
-    }, [conversation])
+        if (conversation && currentUserID) {
+            dispatch(getConversationDetail({
+                userID: currentUserID,
+                conversationID: conversation?.id
+            }))
+        }
+    }, [conversation, currentUserID])
 
     useEffect(() => {
         scrollRef.current?.scrollIntoView({
@@ -55,6 +67,7 @@ export function Conversation({ conversation, currentUser }: ConversationProps) {
                 message: messageText
             }
             await dispatch(sendMessage(payload));
+            socket.emit('sendMessage', payload);
             setMessageText('');
         }
     }

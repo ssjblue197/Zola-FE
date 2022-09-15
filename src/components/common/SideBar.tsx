@@ -22,7 +22,7 @@ export function SideBar(props: SideBarProps) {
   const navigateToItem = (item: any) => {
     if (item.url) {
       setMenuActive(item)
-      if (item.url !== '/logout') {
+      if (item.url !== '/login') {
         navigate(item.url)
       } else {
         const payload = {

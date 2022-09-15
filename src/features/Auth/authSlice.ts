@@ -48,6 +48,35 @@ const authSlice = createSlice({
         login(state, action: PayloadAction<LoginPayload>) {
             state.logging = true;
         },
+        register(state, action: PayloadAction<any>) {
+            console.log(action.payload);
+
+        },
+        registerSuccess(state, action: PayloadAction<any>) {
+            toast.success('Register Successfully', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1000)
+        },
+        registerFailed(state, action: PayloadAction<any>) {
+            toast.error(action.payload.response.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        },
         loginSuccess(state, action: any) {
             const data = action.payload
             toast.success('Login successfully!', {
@@ -58,8 +87,8 @@ const authSlice = createSlice({
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                });
-            
+            });
+
             state.logging = false;
             state.currentUser = action.payload.user
             state.isLoggedIn = true;
@@ -85,7 +114,7 @@ const authSlice = createSlice({
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                });
+            });
         },
         logout(state, action: any) {
             state.isLoggedIn = false;
@@ -112,11 +141,11 @@ const authSlice = createSlice({
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                });
+            });
         },
         logoutFailed(state, action: any) {
             console.log(action);
-            
+
             state.logging = false;
             state.currentUser = undefined
             state.isLoggedIn = false;
@@ -137,13 +166,21 @@ const authSlice = createSlice({
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                });
+            });
         },
     },
 })
 
 const { actions, reducer } = authSlice;
-export const { login, loginSuccess, logout, loginFailed, logoutSuccess, logoutFailed } = actions
+export const { login,
+    loginSuccess,
+    logout,
+    loginFailed,
+    logoutSuccess,
+    logoutFailed,
+    register,
+    registerSuccess,
+    registerFailed, } = actions
 // Other code such as selectors can use the imported `RootState` type
 export const selectAuthState = (state: RootState) => state.auth
 export default reducer
